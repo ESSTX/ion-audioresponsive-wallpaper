@@ -1,0 +1,1035 @@
+/*
+===========================================================================================
+    Author: ESSTX
+    just s1mpl3 base css for my projects
+
+    ps idk how to fix fout...🤦
+===========================================================================================
+*/
+
+/*
+===========================================================================================
+    Base
+===========================================================================================
+*/
+
+/*
+    ms - margin size, ps - padding size, tl - transparent level ,br - border radius
+*/
+:root {
+  /* margin */
+  --ms1: 0.8rem;
+  --ms2: 1.1rem;
+  --ms3: 1.4rem;
+  --ms4: 1.7rem;
+  --ms5: 2.0rem;
+  /* padding */
+  --ps1: 0.8rem;
+  --ps2: 1.1rem;
+  --ps3: 1.4rem;
+  --ps4: 1.7rem;
+  --ps5: 2.0rem;
+  /* transparent */
+  --tl1: 0.5;
+  --tl2: 0.4;
+  --tl3: 0.3;
+  --tl4: 0.2;
+  --tl5: 0.1;
+  /* border */
+}
+
+* {
+  user-select: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@keyframes loading-font-anim {
+  0% {
+    opacity: 0.7;
+    background-position: 0% 0%;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 0.7;
+    background-position: 100% 0%;
+  }
+}
+
+.loading-font {
+  height: 100%;
+  color: transparent;
+  background-color: white;
+  background-image: linear-gradient(90deg, #ffffff, #d1d1d1, #ffffff, #d1d1d1);
+  background-size: 300% 100%;
+  animation: loading-font-anim 2s linear 0s infinite normal forwards;
+  border-radius: 0.4rem;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/*
+    Text
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+sup,
+sub,
+small {
+  color: transparent;
+  transition: color 1s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: block;
+  font-weight: bold;
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+i,
+em {
+  font-style: italic;
+}
+
+mark {
+  background-color: #ffedbc;
+}
+
+small {
+  font-size: 0.8rem;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+ins {
+  text-decoration: underline;
+}
+
+sub {
+  font-size: 0.8rem;
+  vertical-align: sub;
+}
+
+sup {
+  font-size: 0.8rem;
+  vertical-align: super;
+}
+
+p {
+  font-size: 1rem;
+}
+
+span {
+  display: inline-block;
+  font-size: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.w100 {
+  font-weight: 300;
+}
+
+.w200 {
+  font-weight: 300;
+}
+
+.w300 {
+  font-weight: 300;
+}
+
+.w400 {
+  font-weight: 300;
+}
+
+blr {
+  filter: blur(4px);
+  transition: filter 0.4s;
+}
+
+blr:hover {
+  filter: blur(0);
+}
+
+tdwr {
+  text-decoration: #e63939 wavy underline;
+}
+
+.loading-font tdwr {
+  text-decoration: none;
+}
+
+tdwg {
+  text-decoration: #39e695 wavy underline;
+}
+
+.loading-font tdwg {
+  text-decoration: none;
+}
+
+/*
+    Content box&Flex
+*/
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-space-around {
+  justify-content: space-around;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-stretch {
+  align-items: stretch;
+}
+
+.align-baseline {
+  align-items: baseline;
+}
+
+.flex-col-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flex-row-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+/*
+    Margin global
+*/
+.margl-1 {
+  margin: var(--ms1);
+}
+
+.margl-2 {
+  margin: var(--ms2);
+}
+
+.margl-3 {
+  margin: var(--ms3);
+}
+
+.margl-4 {
+  margin: var(--ms4);
+}
+
+.margl-5 {
+  margin: var(--ms5);
+}
+
+/*
+    Margin top
+*/
+.martop-1 {
+  margin-top: var(--ms1);
+}
+
+.martop-2 {
+  margin-top: var(--ms2);
+}
+
+.martop-3 {
+  margin-top: var(--ms3);
+}
+
+.martop-4 {
+  margin-top: var(--ms4);
+}
+
+.martop-5 {
+  margin-top: var(--ms5);
+}
+
+/*
+    Margin bottom
+*/
+.marbot-1 {
+  margin-bottom: var(--ms1);
+}
+
+.marbot-2 {
+  margin-bottom: var(--ms2);
+}
+
+.marbot-3 {
+  margin-bottom: var(--ms3);
+}
+
+.marbot-4 {
+  margin-bottom: var(--ms4);
+}
+
+.marbot-5 {
+  margin-bottom: var(--ms5);
+}
+
+/*
+    Margin top bottom
+*/
+.martb-1 {
+  margin: var(--ms1) 0 var(--ms1) 0;
+}
+
+.martb-2 {
+  margin: var(--ms2) 0 var(--ms2) 0;
+}
+
+.martb-3 {
+  margin: var(--ms3) 0 var(--ms3) 0;
+}
+
+.martb-4 {
+  margin: var(--ms4) 0 var(--ms4) 0;
+}
+
+.martb-5 {
+  margin: var(--ms5) 0 var(--ms5) 0;
+}
+
+/*
+    Margin left
+*/
+.marleft-1 {
+  margin-left: var(--ms1);
+}
+
+.marleft-2 {
+  margin-left: var(--ms2);
+}
+
+.marleft-3 {
+  margin-left: var(--ms3);
+}
+
+.marleft-4 {
+  margin-left: var(--ms4);
+}
+
+.marleft-5 {
+  margin-left: var(--ms5);
+}
+
+/*
+    Margin right
+*/
+.marright-1 {
+  margin-right: var(--ms1);
+}
+
+.marright-2 {
+  margin-right: var(--ms2);
+}
+
+.marright-3 {
+  margin-right: var(--ms3);
+}
+
+.marright-4 {
+  margin-right: var(--ms4);
+}
+
+.marright-5 {
+  margin-right: var(--ms5);
+}
+
+/*
+    Margin left right
+*/
+.marlr-1 {
+  margin: 0 var(--ms1) 0 var(--ms1);
+}
+
+.marlr-2 {
+  margin: 0 var(--ms2) 0 var(--ms2);
+}
+
+.marlr-3 {
+  margin: 0 var(--ms3) 0 var(--ms3);
+}
+
+.marlr-4 {
+  margin: 0 var(--ms4) 0 var(--ms4);
+}
+
+.marlr-5 {
+  margin: 0 var(--ms5) 0 var(--ms5);
+}
+
+/*
+    Padding global
+*/
+.padgl-1 {
+  padding: var(--ps1);
+}
+
+.padgl-2 {
+  padding: var(--ps2);
+}
+
+.padgl-3 {
+  padding: var(--ps3);
+}
+
+.padgl-4 {
+  padding: var(--ps4);
+}
+
+.padgl-5 {
+  padding: var(--ps5);
+}
+
+/*
+    Padding top
+*/
+.padtop-1 {
+  padding-top: var(--ps1);
+}
+
+.padtop-2 {
+  padding-top: var(--ps2);
+}
+
+.padtop-3 {
+  padding-top: var(--ps3);
+}
+
+.padtop-4 {
+  padding-top: var(--ps4);
+}
+
+.padtop-5 {
+  padding-top: var(--ps5);
+}
+
+/*
+    Padding bottom
+*/
+.padbot-1 {
+  padding-bottom: var(--ps1);
+}
+
+.padbot-2 {
+  padding-bottom: var(--ps2);
+}
+
+.padbot-3 {
+  padding-bottom: var(--ps3);
+}
+
+.padbot-4 {
+  padding-bottom: var(--ps4);
+}
+
+.padbot-5 {
+  padding-bottom: var(--ps5);
+}
+
+/*
+    Padding top bottom
+*/
+.padtb-1 {
+  padding: var(--ps1) 0 var(--ps1) 0;
+}
+
+.padtb-2 {
+  padding: var(--ps2) 0 var(--ps2) 0;
+}
+
+.padtb-3 {
+  padding: var(--ps3) 0 var(--ps3) 0;
+}
+
+.padtb-4 {
+  padding: var(--ps4) 0 var(--ps4) 0;
+}
+
+.padtb-5 {
+  padding: var(--ps5) 0 var(--ps5) 0;
+}
+
+/*
+    Padding left
+*/
+.padleft-1 {
+  padding-left: var(--ps1);
+}
+
+.padleft-2 {
+  padding-left: var(--ps2);
+}
+
+.padleft-3 {
+  padding-left: var(--ps3);
+}
+
+.padleft-4 {
+  padding-left: var(--ps4);
+}
+
+.padleft-5 {
+  padding-left: var(--ps5);
+}
+
+/*
+    Padding right
+*/
+.padright-1 {
+  padding-right: var(--ps1);
+}
+
+.padright-2 {
+  padding-right: var(--ps2);
+}
+
+.padright-3 {
+  padding-right: var(--ps3);
+}
+
+.padright-4 {
+  padding-right: var(--ps4);
+}
+
+.padright-5 {
+  padding-right: var(--ps5);
+}
+
+/*
+    Padding left right
+*/
+.padlr-1 {
+  padding: 0 var(--ps1) 0 var(--ps1);
+}
+
+.padlr-2 {
+  padding: 0 var(--ps2) 0 var(--ps2);
+}
+
+.padlr-3 {
+  padding: 0 var(--ps3) 0 var(--ps3);
+}
+
+.padlr-4 {
+  padding: 0 var(--ps4) 0 var(--ps4);
+}
+
+.padlr-5 {
+  padding: 0 var(--ps5) 0 var(--ps5);
+}
+
+/*
+    Colors
+*/
+.white {
+  color: #f5f5f5
+}
+
+.dark {
+  color: #181818
+}
+
+/*
+    Width percent
+*/
+.wperc10 {
+  width: 10%;
+}
+
+.wperc20 {
+  width: 20%;
+}
+
+.wperc30 {
+  width: 30%;
+}
+
+.wperc40 {
+  width: 40%;
+}
+
+.wperc50 {
+  width: 50%;
+}
+
+.wperc60 {
+  width: 60%;
+}
+
+.wperc70 {
+  width: 70%;
+}
+
+.wperc80 {
+  width: 80%;
+}
+
+.wperc90 {
+  width: 90%;
+}
+
+.wperc100 {
+  width: 100%;
+}
+
+/*
+    Height percent
+*/
+.hperc10 {
+  height: 10%;
+}
+
+.hperc20 {
+  height: 20%;
+}
+
+.hperc30 {
+  height: 30%;
+}
+
+.hperc40 {
+  height: 40%;
+}
+
+.hperc50 {
+  height: 50%;
+}
+
+.hperc60 {
+  height: 60%;
+}
+
+.hperc70 {
+  height: 70%;
+}
+
+.hperc80 {
+  height: 80%;
+}
+
+.hperc90 {
+  height: 90%;
+}
+
+.hperc100 {
+  height: 100%;
+}
+
+/*
+    Display
+*/
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+/*
+    Position
+*/
+.fixed {
+  position: fixed;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+/*
+    Top
+*/
+.top1 {
+  top: var(--ms1);
+}
+
+.top2 {
+  top: var(--ms2);
+}
+
+.top3 {
+  top: var(--ms3);
+}
+
+.top4 {
+  top: var(--ms4);
+}
+
+.top5 {
+  top: var(--ms5);
+}
+
+/*
+===========================================================================================
+    Input
+===========================================================================================
+*/
+input[type="button"] {
+  background-color: rgba(255, 255, 255, var(--tl5));
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  transition: all 1s;
+
+  width: auto;
+  height: auto;
+}
+
+input[type="button"].loading-font {
+  width: auto;
+  height: auto;
+  color: transparent;
+  backdrop-filter: none;
+}
+
+input[type="button"]:hover {
+  background-color: rgba(255, 255, 255, var(--tl4));
+}
+
+input[type="button"]:active {
+  background-color: rgba(255, 255, 255, var(--tl3));
+}
+
+input[type="button"]:focus {
+  outline: none;
+}
+
+/*
+===========================================================================================
+    Base project
+===========================================================================================
+*/
+.loading-font {
+  height: 100%;
+  color: transparent;
+  background: linear-gradient(90deg, #2b091734 0%, #17073100 33%, #2b091734 66%, #17073100 100%);
+  background-size: 200% 200%;
+  animation: loading-font-anim 1s ease 0s infinite normal forwards;
+  border-radius: 0.4rem;
+  backdrop-filter: saturate(200%) blur(120px);
+}
+
+.bg {
+  background-color: #111;
+}
+
+.glass {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.56);
+  border: 1px solid #ffffff0e;
+  overflow: hidden;
+  border-radius: 0;
+  backdrop-filter: saturate(300%) blur(40px);
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  box-sizing: border-box;
+  transition: all 0.1s;
+}
+
+.page {
+  width: 100%;
+  height: 40rem;
+}
+
+.warn-device {
+  position: fixed;
+  width: 100%;
+  height: 80px;
+  background: rgba(255, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, var(--tl5));
+  overflow: hidden;
+  border-radius: 8px;
+  backdrop-filter: saturate(0%) blur(10px);
+  box-sizing: border-box;
+  transition: all 0.5s;
+  z-index: 1;
+  left: 0;
+  bottom: 0px;
+}
+
+.warn-device-inside {
+  width: 100%;
+  height: 50px;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  display: none;
+}
+
+.footer {
+  display: none;
+}
+
+
+@media (min-width: 1100px) {
+  .glass {
+    width: 50rem;
+    border-radius: 1.6rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .warn-device {
+    bottom: -80px;
+  }
+}
+
+@media (min-width: 680px) {
+  .glass {
+    height: auto;
+  }
+
+  .footer {
+    display: flex;
+  }
+}
+
+.gradient {
+  --size: calc(50vh + 50vw);
+  --speed: 40s;
+  width: var(--size);
+  height: var(--size);
+  background-image: linear-gradient(#5e37ebd9, #eb6137);
+  animation: rotate var(--speed) cubic-bezier(0.785, 0.135, 0.150, 0.860) infinite, blur-effect 4s cubic-bezier(0.785, 0.135, 0.150, 0.860) infinite alternate;
+  border-radius: 50% 70% 50% 30% / 30% 30% 80% 40%;
+  position: fixed;
+  top: calc(5% + var(--size) / 2);
+  left: calc(50% - var(--size) / 2);
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  to {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes blur-effect {
+  from {
+    -webkit-filter: blur(calc(var(--size) / 10)) brightness(80%);
+    filter: blur(calc(var(--size) / 10)) brightness(80%) saturate(120%);
+
+  }
+
+  to {
+    -webkit-filter: blur(calc(var(--size) / 5)) brightness(100%);
+    filter: blur(calc(var(--size) / 5)) brightness(100%) saturate(120%);
+  }
+}
+
+.glow-divider {
+  width: 90%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, var(--tl5));
+  position: relative;
+}
+
+.glow-divider::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
+  box-shadow: 0px 0px 1px 1px #fff;
+  animation: glow 6s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@keyframes glow {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scaleX(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+.social-icon {
+  filter: invert(100%);
+}
+
+.social-icon-wrapper {
+  transition: all .2s;
+  user-select: none;
+}
+
+.social-icon-wrapper:hover {
+  animation: zoomblur 1.5s linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.arrow {
+  filter: invert(100%);
+  opacity: 0.2;
+  pointer-events:
+}
+
+.arrow:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.right-dir {
+  transform: rotate(90deg);
+}
+
+.left-dir {
+  transform: rotate(-90deg);
+}
+
+@keyframes zoomblur {
+  0% {
+    transform: scale(1.2);
+    filter: blur(2px);
+  }
+
+  50% {
+    transform: scale(1.3);
+    filter: blur(0px);
+  }
+
+  100% {
+    transform: scale(1.1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes right-arrow {
+  0% {
+    transform: scale(1.2);
+    filter: blur(2px);
+  }
+
+  50% {
+    transform: scale(1.3);
+    filter: blur(0px);
+  }
+
+  100% {
+    transform: scale(1.1);
+    filter: blur(0px);
+  }
+}

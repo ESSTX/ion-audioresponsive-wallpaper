@@ -1,0 +1,45 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "I accept any suggestions.\n\nif your fps drops or u have lags write in the comments.\n\nlibs used:\njquery & lodash\n\nalso i will publish the source code on github soon.\n\n**At the moment there is a problem, sometimes it is not possible to get a thumbnail",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"erweima" : 
+			{
+				"index" : 1,
+				"order" : 175,
+				"text" : "<a href='https://discord.gg/7qMT8Azffs'><img src='https://esstx.github.io/base-project/svg/discord.svg' fill='white' width='64' height='64'></a>\t<a href='https://github.com/ESSTX/'><img src='https://esstx.github.io/base-project/svg/github.svg' fill='white' width='64' height='64'></a>\t<a href='https://steamcommunity.com/id/esstx/'><img src='https://esstx.github.io/base-project/svg/steam.svg' fill='white' width='64' height='64'></a>\t<a href='https://www.artstation.com/esstx'><img src='https://esstx.github.io/base-project/svg/artstation.svg' fill='white' width='64' height='64'></a>",
+				"type" : "text",
+				"value" : false
+			},
+			"footericons" : 
+			{
+				"condition" : "",
+				"index" : 0,
+				"order" : 100,
+				"text" : "Footer Icons",
+				"type" : "bool",
+				"value" : true
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.28627450980392155 0.28627450980392155 0.28627450980392155"
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"preview" : "preview.gif",
+	"snapshotformat" : 0,
+	"snapshotoverlay" : "",
+	"tags" : [ "Unspecified" ],
+	"title" : "ION | Audio Responsive Wallpaper",
+	"type" : "web",
+	"version" : 2,
+	"workshopid" : "2968833989",
+	"workshopurl" : "steam://url/CommunityFilePage/2968833989"
+}
