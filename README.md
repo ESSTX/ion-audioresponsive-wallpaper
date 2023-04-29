@@ -7,8 +7,14 @@
 **Temporary solution, start the browser like this:**
 
 Google Chrome
-`start "" /High "chrome.exe" --disable-renderer-backgrounding`
+```
+start "" /High "chrome.exe" --disable-renderer-backgrounding
+```
 Opera
-`start "" /High "opera.exe" --disable-renderer-backgrounding`
+```
+start "" /High "opera.exe" --disable-renderer-backgrounding
+```
 Yandex
-`start "" /High "browser.exe" --disable-renderer-backgrounding`
+```
+start "" /High "browser.exe" --disable-renderer-backgrounding
+```
