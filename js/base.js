@@ -510,11 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let libs = [
     "js/jquery-3.6.4.min.js",
     "js/lodash.min.js"
-    //// PLS DONT COPY API KEY FROM THIS WALLPAPER
-    //// IF U WANNA USE API U CAN CREATE UR OWN ITS FREE~
-    //// https://cse.google.com/cse
-
-    //"https://d3js.org/d3.v7.min.js"
   ];
 
   let scriptElements = [];
