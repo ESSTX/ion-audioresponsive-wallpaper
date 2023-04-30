@@ -13,19 +13,26 @@
 
     <div id="gradient" class="gradient"></div>
 
+    <div class="debug padgl-2 flex col justify-center align-center">
+        <p id="debugtext"></p>
+    </div>
+
     <div id="content" class="content flex col justify-center align-center">
         <div id="glass" class="glass padgl-5 flex col align-center">
             <div class="page">
 
                 <div id="thumbnail-warp" class="thumbnail-container flex-row-center">
-                    <div id="thumbnail" class="thumbnail"><img id="thumbnailimage" class="thumbnail-image"></div>
+                    <div id="thumbnail" class="thumbnail">
+                        <img id="thumbnailimage" class="thumbnail-image">
+                    </div>
+                    <img id="paused" class="paused" src="svg/pause.svg" width="24" height="24">
                 </div>
 
-                <div class="info-container flex col justify-start align-center">
-                    <div class="textb margl-2 padgl-2">
+                <div class="info-container flex col justify-start align-start">
+                    <div class="textb margl-2 padgl-1">
                         <h6 id="infoArtist" class="gigachadus w300"></h6>
                     </div>
-                    <div class="textb margl-2 padgl-2">
+                    <div class="textb margl-1 padgl-2">
                         <h5 id="infoTrackName" class="gigachadus w300"></h5>
                     </div>
                 </div>

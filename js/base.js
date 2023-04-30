@@ -1,3 +1,9 @@
+const googleimage = "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAgAElEQVR4nO29eXwk1X3o+z1VvWgbSTPSDMzCjAQMmwcQxoDBk";
+
+const STOPPED = 0;
+const PLAYING = 1;
+const PAUSED = 2;
+
 const lerp = (a, b, n) => {
   return (b - a) * n + a;
 }
@@ -31,6 +37,41 @@ const hexToRgb = (hex) => {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   return [r, g, b];
+}
+
+const hexToRgba = (hex, alpha) => {
+  const hexDigits = hex.substring(1).split('');
+  const r = parseInt(hexDigits.slice(0, 2).join(''), 16);
+  const g = parseInt(hexDigits.slice(2, 4).join(''), 16);
+  const b = parseInt(hexDigits.slice(4, 6).join(''), 16);
+  const a = alpha || 1;
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+const hexSetAlpha = (hex, alpha) => {
+  const alphaInt = Math.round(alpha * 255);
+  const alphaHex = alphaInt.toString(16).padStart(2, '0');
+  const hexDigits = hex.substring(1).split('');
+  hexDigits.splice(6, 2, alphaHex);
+  return "#" + hexDigits.join('');
+}
+
+const rgbaSetAlpha = (rgba, alpha) => {
+  const values = rgba.slice(5, -1).split(',');
+  return `rgba(${values[0]}, ${values[1]}, ${values[2]}, ${alpha})`;
+}
+
+const rgbaToHex = (rgba) => {
+  const [r, g, b, a] = rgba.split(/\(|\)|,/).slice(1, 5).map(val => parseInt(val));
+  const alphaToHex = Math.round(a * 255).toString(16).padStart(2, '0');
+  const hex = ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  return "#" + hex + alphaToHex;
+}
+
+const arrayRemove = (arr, value) => {
+  return arr.filter(function (ele) {
+    return ele != value;
+  });
 }
 
 const rgbToHsl = (r, g, b) => {
@@ -101,6 +142,9 @@ const init = () => {
   const canvas = document.getElementById('audiovis');
   const ctx = canvas.getContext('2d');
 
+  let globalState = -1;
+  let globalStatePrev = -1;
+
   // Make rain sync with music
   let audio32 = 0;
 
@@ -126,17 +170,20 @@ const init = () => {
   ///     RAIN
   ///
   ///////////////////////////////
+  let partsize = 0;
   class GigaDrop {
     constructor(maxX, maxY) {
       this.x = _.random(maxX);
       this.y = _.random(maxY);
-      this.width = _.random(1, 3);
-      this.height = _.random(6, 18);
+      this.width = _.random(1, 3) * partsize;
+      this.height = _.random(6, 18) * partsize;
       this.speed = this.height * 30;
     }
 
     update(deltaTime) {
-      this.y += (this.speed * (audio32 * 100)) * deltaTime;
+      //let calcsp1 =
+      this.y += ((this.speed) * audio32 * 100 * deltaTime);
+      this.y += 10 * deltaTime;
       if (this.y > $(window).height()) {
         this.x = _.random($(window).width());
         this.y = -this.height;
@@ -161,6 +208,7 @@ const init = () => {
     }
   }
 
+
   const update = (deltaTime) => {
     for (let i = 0; i < drops.length; i++) {
       drops[i].update(deltaTime);
@@ -173,12 +221,37 @@ const init = () => {
       drops[i].draw();
     }
   }
+
+  const spawnparts = (c) => {
+    drops.length = 0;
+    for (let i = 0; i < c; ++i) {
+      drops.push(new GigaDrop(canvas.width, canvas.height));
+    }
+  }
+
   let fpsDisplayLag = 0;
+  let gradientrotation = 0;
+  let gradientrotationS = 0;
+
+  let oldPartCount = 0;
+  let partCount = 0;
+
   const loop = (timestamp) => {
     const deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     update(deltaTime);
     draw();
+
+    if (oldPartCount != partCount) {
+      oldPartCount = partCount;
+      spawnparts(partCount);
+      //$("#debugtext").text(partCount);
+    }
+
+    // Iknow, but i need smooth rotation
+    gradientrotationS = lerp(gradientrotationS, gradientrotation, 2 * deltaTime)
+    $("#gradient").css("transform", "rotate(" + gradientrotationS + "deg)");
+
 
     if (fpsDisplayLag > 10) {
       const fps = Math.round(1 / deltaTime);
@@ -192,10 +265,6 @@ const init = () => {
 
   let lastTime = 0;
 
-  for (let i = 0; i < 100; i++) {
-    drops.push(new GigaDrop(canvas.width, canvas.height));
-  }
-
   window.requestAnimationFrame(loop);
 
   ///////////////////////////////
@@ -203,22 +272,23 @@ const init = () => {
   ///     AUDIO LISTENER
   ///
   ///////////////////////////////
+  let impactforce = 4;
   const AUDIOLISTENER = (audioArray) => {
+    let size = 0;
+    let slice = Math.round(audioArray.length / 8);
+    for (let i = 0; i < audioArray.length; i += slice) {
+      size += Math.min(audioArray[i], 0.6);
+    }
 
-    let calc0 = audioArray[12] * 2000;
+    let calc0 = size * (impactforce * 10);
+
     let calc1 = calcHeightThumbnail + calc0;
-    //let calc2 = parseInt(calcBGSizeThumbnail) + calc0;
 
-    //let calc3 = audioArray[12] * 200;
-    //$("#gradient").css("rotate",  calc3+"deg");
+    audio32 = Math.min(audioArray[80], 1);
+    gradientrotation += size * 2;
 
-    audio32 = audioArray[80];
-
-    let calc1clamped = clamp(calc1, 100, 550);
-    //let calc2clamped = clamp(calc2, 100, 550);
-
-    thumbnail.style.width = calc1clamped + "px";
-    thumbnail.style.height = calc1clamped + "px";
+    thumbnail.style.width = calc1 + "px";
+    thumbnail.style.height = calc1 + "px";
 
     //$("#debug_num").text(calc2clamped);
 
@@ -226,9 +296,10 @@ const init = () => {
     let bs2 = calc0 * 3; //blur
     let bs3 = -calc0;
 
-    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    $("#thumbnail").css("box-shadow", primaryColor + ' 0px ' + bs1 + 'px ' + bs2 + 'px ' + bs3 + 'px ');
 
-    $("#thumbnail").css("box-shadow", primaryColor + ' 0px ' + bs1 + 'px ' + bs2 + 'px ' + bs3 + 'px ')
+    let borderColor = rgbaSetAlpha(hexToRgba(primaryColor), size * 2);
+    $("#thumbnail").css("border", (size * 3) + "px solid " + borderColor);
   }
 
   albumCoverArt = document.getElementById('albumCoverArt');
@@ -239,17 +310,25 @@ const init = () => {
   ///     THUMBNAIL
   ///
   ///////////////////////////////
-
-
   const THUMBNAIL = (event) => {
+    let thumburlcut = event.thumbnail.replace("data:image/png;base64,", "");
+    thumburlcut = thumburlcut.slice(0, googleimage.length);
+    if (thumburlcut == googleimage || globalState == PAUSED) {
+      globalState = STOPPED;
+      return;
+    }
 
-    if (!event.thumbnail) {
-      console.log("error");
+    if (event.thumbnail == "data:image/png;base64,") {
+      $("#thumbnailimage").attr("src", "img/error.png");
+      $("#thumbnail").css("opacity", "1");
+    } else {
+      $("#thumbnailimage").attr("src", event.thumbnail);
+      $("#thumbnail").css("opacity", "1");
     }
 
     //$("#thumbnail").css("background-image", 'url('+event.thumbnail+')')
-    $("#thumbnailimage").attr("src", event.thumbnail);
-    $("#thumbnail").css("box-shadow", event.primaryColor + ' 0px 25px 50px -12px')
+
+    $("#thumbnail").css("box-shadow", event.primaryColor + ' 0px 25px 50px -12px');
     primaryColor = event.primaryColor;
 
     $("#gradient").css("background-image", 'linear-gradient(' + event.primaryColor + ', ' + event.secondaryColor + ')')
@@ -287,6 +366,9 @@ const init = () => {
   ///
   ///////////////////////////////
   const PLAYINGINFO = (event) => {
+    if (globalState == PAUSED) {
+      return;
+    }
     let textElements = $('.gigachadus, .thumbnail');
 
     _.forEach(textElements, (element) => {
@@ -302,6 +384,36 @@ const init = () => {
       $("#infoTrackName").text(event.title);
     }, "200");
   }
+  ///////////////////////////////
+  ///
+  ///     PLAYBACK
+  ///
+  ///////////////////////////////
+  const PLAYBACK = (event) => {
+    globalState = event.state;
+
+    if (event.state == STOPPED) {
+      $("#infoArtist").text("");
+      $("#infoTrackName").text("");
+      $("#thumbnailimage").attr("src", "img/error.png");
+
+      $("#infoTrackName").css("opacity", "0");
+      $("#thumbnailimage").css("opacity", "0");
+    } else if (event.state == PLAYING) {
+      $("#paused").css("opacity", "0");
+      $("#paused").css("transform", "scale(0.5)");
+
+      $("#infoTrackName").css("opacity", "1");
+      $("#thumbnailimage").css("opacity", "1");
+    } else if (event.state == PAUSED) {
+      $("#paused").css("opacity", "1");
+      $("#paused").css("transform", "scale(1)");
+
+      $("#infoTrackName").css("opacity", "1");
+      $("#thumbnailimage").css("opacity", "1");
+    }
+  }
+  window.wallpaperRegisterMediaPlaybackListener(PLAYBACK);
   window.wallpaperRegisterAudioListener(AUDIOLISTENER);
   window.wallpaperRegisterMediaThumbnailListener(THUMBNAIL);
   window.wallpaperRegisterMediaPropertiesListener(PLAYINGINFO);
@@ -344,12 +456,26 @@ const init = () => {
 
   window.wallpaperPropertyListener = {
     applyUserProperties: function (properties) {
-      var footericons = properties.footericons.value;
-      if (!footericons) {
-        $("#footericons").css("display", "none");
-      } else {
-        $("#footericons").css("display", "flex");
+
+      if (properties.footericons) {
+        if (!properties.footericons.value) {
+          $("#footericons").css("display", "none");
+        } else {
+          $("#footericons").css("display", "flex");
+        }
       }
+      if (properties.numpart) {
+        partCount = properties.numpart.value;
+      }
+      if (properties.particlesize) {
+        partsize = properties.particlesize.value;
+        //spawnparts(properties.numpart.value);
+      }
+      if (properties.rndedge) {
+        //shitty
+        $(".thumbnail").css("border-radius", properties.rndedge.value + "%");
+      }
+
     },
   };
 }
@@ -384,6 +510,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let libs = [
     "js/jquery-3.6.4.min.js",
     "js/lodash.min.js"
+    //// PLS DONT COPY API KEY FROM THIS WALLPAPER
+    //// IF U WANNA USE API U CAN CREATE UR OWN ITS FREE~
+    //// https://cse.google.com/cse
+
+    //"https://d3js.org/d3.v7.min.js"
   ];
 
   let scriptElements = [];

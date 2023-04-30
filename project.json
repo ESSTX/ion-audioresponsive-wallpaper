@@ -1,19 +1,11 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "I accept any suggestions.\n\nif your fps drops or u have lags write in the comments.\n\nlibs used:\njquery & lodash\n\nalso i will publish the source code on github soon.\n\n**At the moment there is a problem, sometimes it is not possible to get a thumbnail",
+	"description" : "[b]At the moment there is a problem, sometimes it is not possible to get a video thumbnail[/b]\r\n[hr][/hr]\r\n[b]Temporary solution, start the browser like this:[/b]\r\nGoogle Chrome\r\n[code]start \"\" /High \"chrome.exe\" --disable-renderer-backgrounding[/code]\r\nOpera\r\n[code]start \"\" /High \"opera.exe\" --disable-renderer-backgrounding[/code]\r\nYandex\r\n[code]start \"\" /High \"browser.exe\" --disable-renderer-backgrounding[/code]\r\n\r\nI accept any suggestions.\r\n\r\nif your fps drops or u have lags write in the comments.\r\n\r\nlibs used:\r\n[b]jquery[/b] & [b]lodash[/b]\r\n\r\nalso i will publish the source code on github soon.",
 	"file" : "index.html",
 	"general" : 
 	{
 		"properties" : 
 		{
-			"erweima" : 
-			{
-				"index" : 1,
-				"order" : 175,
-				"text" : "<a href='https://discord.gg/7qMT8Azffs'><img src='https://esstx.github.io/base-project/svg/discord.svg' fill='white' width='64' height='64'></a>\t<a href='https://github.com/ESSTX/'><img src='https://esstx.github.io/base-project/svg/github.svg' fill='white' width='64' height='64'></a>\t<a href='https://steamcommunity.com/id/esstx/'><img src='https://esstx.github.io/base-project/svg/steam.svg' fill='white' width='64' height='64'></a>\t<a href='https://www.artstation.com/esstx'><img src='https://esstx.github.io/base-project/svg/artstation.svg' fill='white' width='64' height='64'></a>",
-				"type" : "text",
-				"value" : false
-			},
 			"footericons" : 
 			{
 				"condition" : "",
@@ -22,6 +14,53 @@
 				"text" : "Footer Icons",
 				"type" : "bool",
 				"value" : true
+			},
+			"inf" : 
+			{
+				"index" : 4,
+				"order" : 104,
+				"text" : "<a href='https://discord.gg/7qMT8Azffs'><img src='https://esstx.github.io/base-project/svg/discord.svg' fill='white' width='64' height='64'></a>\t<a href='https://github.com/ESSTX/'><img src='https://esstx.github.io/base-project/svg/github.svg' fill='white' width='64' height='64'></a>\t<a href='https://steamcommunity.com/id/esstx/'><img src='https://esstx.github.io/base-project/svg/steam.svg' fill='white' width='64' height='64'></a>\t<a href='https://www.artstation.com/esstx'><img src='https://esstx.github.io/base-project/svg/artstation.svg' fill='white' width='64' height='64'></a>",
+				"type" : "text",
+				"value" : false
+			},
+			"numpart" : 
+			{
+				"fraction" : true,
+				"index" : 1,
+				"max" : 200,
+				"min" : 0,
+				"order" : 101,
+				"precision" : 2,
+				"step" : 1,
+				"text" : "Number of particles",
+				"type" : "slider",
+				"value" : 100
+			},
+			"particlesize" : 
+			{
+				"fraction" : true,
+				"index" : 2,
+				"max" : 50,
+				"min" : 1,
+				"order" : 102,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "Particle size",
+				"type" : "slider",
+				"value" : 1
+			},
+			"rndedge" : 
+			{
+				"fraction" : true,
+				"index" : 3,
+				"max" : 100,
+				"min" : 0,
+				"order" : 103,
+				"precision" : 2,
+				"step" : 1,
+				"text" : "Rounding the edges of the thumbnail",
+				"type" : "slider",
+				"value" : 8
 			},
 			"schemecolor" : 
 			{
@@ -38,8 +77,9 @@
 	"snapshotoverlay" : "",
 	"tags" : [ "Unspecified" ],
 	"title" : "ION | Audio Responsive Wallpaper",
-	"type" : "web",
-	"version" : 2,
+	"type" : "Web",
+	"version" : 4,
+	"visibility" : "public",
 	"workshopid" : "2968833989",
 	"workshopurl" : "steam://url/CommunityFilePage/2968833989"
 }
