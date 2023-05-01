@@ -31,6 +31,7 @@
     top: calc(20% + var(--size) / 3);
     left: calc(50% - var(--size) / 2);
     pointer-events: none;
+    transition: all .2s;
 }
 
 .glass {
@@ -60,16 +61,17 @@ canvas {
 
 }
 
-.wrapper {
-    top: 0px;
-    left: 0px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
+.noise {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    background-image: url("../img/noise.png");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    display: none;
 }
 
 .thumbnail-container {
@@ -89,7 +91,6 @@ canvas {
     border-radius: 1.6rem;
     box-shadow: #110c2e26 0px 48px 100px 0px;
     transition: all .08s;
-    /*border: 1px solid #ffffff0e;*/
 }
 
 .thumbnail-image {
@@ -136,8 +137,8 @@ canvas {
 
 .debug {
     position: absolute;
-    width: 100%;
-    height: 80px;
+    width: 20%;
+    height: 50%;
     background: rgba(50, 50, 255, 0.3);
     border-top: 1px solid rgba(255, 255, 255, var(--tl5));
     overflow: hidden;
@@ -146,7 +147,8 @@ canvas {
     box-sizing: border-box;
     transition: all 0.5s;
     z-index: 1;
-    left: 0;
+    right: 10%;
+    top: 25%;
     display: none;
 
 }
@@ -160,17 +162,6 @@ canvas {
     transform: scale(0.5);
 }
 
-/*
-.thumbnail::after {
-    content: "";
-    width: 100%;
-    height: 100%;
-    right: 0;
-    top: 0;
-    position: absolute;
-    background: inherit;
-    background-position: center;
-    filter: blur(50px);
-    
-    z-index: -1;
-}*/
+.socialDiscordTag {
+    color: white;
+}

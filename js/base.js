@@ -160,7 +160,6 @@ const init = () => {
 
   //Get calculated height for thumbnail
   const calcHeightThumbnail = $("#thumbnail").width();
-  const calcBGSizeThumbnail = $("#thumbnail").css('background-size');
 
   // Make thumbnail shadow sync with AUDIOOO
   let primaryColor = "#fff";
@@ -230,11 +229,9 @@ const init = () => {
   }
 
   let fpsDisplayLag = 0;
-  let gradientrotation = 0;
-  let gradientrotationS = 0;
-
-  let oldPartCount = 0;
-  let partCount = 0;
+  gradientrotation = 0;
+  oldPartCount = 0;
+  partCount = 0;
 
   const loop = (timestamp) => {
     const deltaTime = (timestamp - lastTime) / 1000;
@@ -248,11 +245,6 @@ const init = () => {
       //$("#debugtext").text(partCount);
     }
 
-    // Iknow, but i need smooth rotation
-    gradientrotationS = lerp(gradientrotationS, gradientrotation, 2 * deltaTime)
-    $("#gradient").css("transform", "rotate(" + gradientrotationS + "deg)");
-
-
     if (fpsDisplayLag > 10) {
       const fps = Math.round(1 / deltaTime);
       $("#fpsDisplay").text(fps + " FPS");
@@ -262,9 +254,7 @@ const init = () => {
 
     window.requestAnimationFrame(loop);
   }
-
   let lastTime = 0;
-
   window.requestAnimationFrame(loop);
 
   ///////////////////////////////
@@ -272,20 +262,46 @@ const init = () => {
   ///     AUDIO LISTENER
   ///
   ///////////////////////////////
-  let impactforce = 4;
+  let _impactforce = 0.1;
+  let calc1max = 0;
   const AUDIOLISTENER = (audioArray) => {
+    if (globalState == PAUSED || globalState == STOPPED) { return; }
     let size = 0;
-    let slice = Math.round(audioArray.length / 8);
+    let slice = Math.round(audioArray.length / 24);//24 is mean detail
     for (let i = 0; i < audioArray.length; i += slice) {
       size += Math.min(audioArray[i], 0.6);
     }
 
-    let calc0 = size * (impactforce * 10);
+    let calc0 = size * (_impactforce * 10);
 
     let calc1 = calcHeightThumbnail + calc0;
 
+    // just auto adaptive thumbnail size to volume
+    if (calc1 > calc1max) {
+      calc1max = calc1;
+    }
+    if (calc1max > 620) {
+      _impactforce = 4;
+      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
+      calc1max = 0;
+    } else if (calc1max > 500) {
+      _impactforce -= 5;
+      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
+      calc1max = 0;
+    } else if (calc1max > 420) {
+      _impactforce -= 1;
+      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
+      calc1max = 0;
+    } else {
+      _impactforce += 0.1;
+      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
+      calc1max = 0;
+    }
+
     audio32 = Math.min(audioArray[80], 1);
-    gradientrotation += size * 2;
+    gradientrotation += calc0 / 100;
+
+    $("#gradient").css("transform", "rotate(" + gradientrotation + "deg)");
 
     thumbnail.style.width = calc1 + "px";
     thumbnail.style.height = calc1 + "px";
@@ -298,13 +314,10 @@ const init = () => {
 
     $("#thumbnail").css("box-shadow", primaryColor + ' 0px ' + bs1 + 'px ' + bs2 + 'px ' + bs3 + 'px ');
 
-    let borderColor = rgbaSetAlpha(hexToRgba(primaryColor), size * 2);
-    $("#thumbnail").css("border", (size * 3) + "px solid " + borderColor);
+    let borderColor = rgbaSetAlpha(hexToRgba(primaryColor), size / 12);
+    $("#thumbnail").css("border", (size) + "px solid " + borderColor);
   }
 
-  albumCoverArt = document.getElementById('albumCoverArt');
-  trackTitle = document.getElementById('trackTitle');
-  artist = document.getElementById('artist');
   ///////////////////////////////
   ///
   ///     THUMBNAIL
@@ -326,14 +339,11 @@ const init = () => {
       $("#thumbnail").css("opacity", "1");
     }
 
-    //$("#thumbnail").css("background-image", 'url('+event.thumbnail+')')
-
     $("#thumbnail").css("box-shadow", event.primaryColor + ' 0px 25px 50px -12px');
     primaryColor = event.primaryColor;
 
     $("#gradient").css("background-image", 'linear-gradient(' + event.primaryColor + ', ' + event.secondaryColor + ')')
-    //console.log(getLuma(event.secondaryColor));
-    //gradient1 = event.primaryColor;
+
     if (getLuma(event.primaryColor) < 10) {
       gradient2 = addLuma(event.primaryColor, 0.55);
     } else if (getLuma(event.primaryColor) < 30) {
@@ -353,9 +363,6 @@ const init = () => {
     } else {
       gradient1 = event.textColor;
     }
-
-    //trackTitle.style.color = event.textColor;
-    //artist.style.color = event.textColor;
 
     $("#infoArtist").css("color", gradient1);
     $("#infoTrackName").css("color", gradient2);
@@ -392,26 +399,25 @@ const init = () => {
   const PLAYBACK = (event) => {
     globalState = event.state;
 
-    if (event.state == STOPPED) {
-      $("#infoArtist").text("");
-      $("#infoTrackName").text("");
-      $("#thumbnailimage").attr("src", "img/error.png");
-
-      $("#infoTrackName").css("opacity", "0");
-      $("#thumbnailimage").css("opacity", "0");
-    } else if (event.state == PLAYING) {
-      $("#paused").css("opacity", "0");
-      $("#paused").css("transform", "scale(0.5)");
-
-      $("#infoTrackName").css("opacity", "1");
-      $("#thumbnailimage").css("opacity", "1");
-    } else if (event.state == PAUSED) {
-      $("#paused").css("opacity", "1");
-      $("#paused").css("transform", "scale(1)");
-
-      $("#infoTrackName").css("opacity", "1");
-      $("#thumbnailimage").css("opacity", "1");
+    switch (event.state) {
+      case STOPPED:
+        $("#infoArtist").text("");
+        $("#infoTrackName").text("");
+        $("#thumbnailimage").attr("src", "img/error.png");
+        break;
+      case PLAYING:
+        $("#paused").css("opacity", "0");
+        $("#paused").css("transform", "scale(0.5)");
+        break;
+      case PAUSED:
+        $("#paused").css("opacity", "1");
+        $("#paused").css("transform", "scale(1)");
+        break;
+      default:
+        break;
     }
+
+    $("#infoTrackName, #thumbnailimage").css("opacity", (event.state == STOPPED) ? "0" : "1");
   }
   window.wallpaperRegisterMediaPlaybackListener(PLAYBACK);
   window.wallpaperRegisterAudioListener(AUDIOLISTENER);
@@ -454,29 +460,76 @@ const init = () => {
     }
   );
 
+  const hideIfNoHref = (selector) => {
+    if ($(selector).attr("href") == "") {
+      $(selector).css("display", "none");
+    } else {
+      $(selector).css("display", "flex");
+    }
+  }
+
   window.wallpaperPropertyListener = {
     applyUserProperties: function (properties) {
-
-      if (properties.footericons) {
-        if (!properties.footericons.value) {
-          $("#footericons").css("display", "none");
-        } else {
-          $("#footericons").css("display", "flex");
+      //console.log(properties);
+      for (const [key, value] of Object.entries(properties)) {
+        switch (key) {
+          case "footericons":
+            $("#footericons").css("display", properties[key].value ? "flex" : "none");
+            break;
+          case "numpart":
+            partCount = properties.numpart.value;
+            break;
+          case "particlesize":
+            partsize = properties.particlesize.value;
+            break;
+          case "rndedge":
+            $(".thumbnail").css("border-radius", properties.rndedge.value + "%");
+            break;
+          case "glassblurstrength":
+            $("#glass").css("backdrop-filter", `saturate(300%) blur(${properties.glassblurstrength.value}px) brightness(120%)`);
+            break;
+          case "glassnoise":
+            $(".noise").css("display", properties.glassnoise.value ? "block" : "none");
+            break;
+          case "noiseblendmode":
+            $("#noise").css("mix-blend-mode", properties.noiseblendmode.value);
+            break;
+          case "noiseopacity":
+            $("#noise").css("opacity", properties.noiseopacity.value);
+            break;
+          case "steamurl":
+            $("#socialSteam").attr("href", properties.steamurl.value)
+            hideIfNoHref("#socialSteam");
+            break;
+          case "discordurl":
+            $("#socialDiscord").attr("href", properties.discordurl.value)
+            hideIfNoHref("#socialDiscord");
+            break;
+          case "discordtag":
+            $("#socialDiscordTag").text(properties.discordtag.value);
+            hideIfNoHref("#socialDiscordTag");
+            break;
+          case "githuburl":
+            $("#socialGithub").attr("href", properties.githuburl.value);
+            hideIfNoHref("#socialGithub");
+            break;
+          case "artstationurl":
+            $("#socialArtstation").attr("href", properties.artstationurl.value);
+            hideIfNoHref("#socialArtstation");
+            break;
+          case "vkurl":
+            $("#socialVK").attr("href", properties.vkurl.value);
+            hideIfNoHref("#socialVK");
+            break;
+          case "qqnumber":
+            $("#socialQQ").attr("href", properties.qqnumber.value);
+            hideIfNoHref("#socialQQ");
+            break;
+          default:
+            break;
         }
       }
-      if (properties.numpart) {
-        partCount = properties.numpart.value;
-      }
-      if (properties.particlesize) {
-        partsize = properties.particlesize.value;
-        //spawnparts(properties.numpart.value);
-      }
-      if (properties.rndedge) {
-        //shitty
-        $(".thumbnail").css("border-radius", properties.rndedge.value + "%");
-      }
-
-    },
+    }
   };
 }
 

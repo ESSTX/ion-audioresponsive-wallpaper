@@ -1,11 +1,35 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "[b]At the moment there is a problem, sometimes it is not possible to get a video thumbnail[/b]\r\n[hr][/hr]\r\n[b]Temporary solution, start the browser like this:[/b]\r\nGoogle Chrome\r\n[code]start \"\" /High \"chrome.exe\" --disable-renderer-backgrounding[/code]\r\nOpera\r\n[code]start \"\" /High \"opera.exe\" --disable-renderer-backgrounding[/code]\r\nYandex\r\n[code]start \"\" /High \"browser.exe\" --disable-renderer-backgrounding[/code]\r\n\r\nI accept any suggestions.\r\n\r\nif your fps drops or u have lags write in the comments.\r\n\r\nlibs used:\r\n[b]jquery[/b] & [b]lodash[/b]\r\n\r\nalso i will publish the source code on github soon.",
+	"description" : "I accept any suggestions.\r\n\r\nIf you have any issues using this wp please leave a comment",
 	"file" : "index.html",
 	"general" : 
 	{
 		"properties" : 
 		{
+			"artstationurl" : 
+			{
+				"index" : 16,
+				"order" : 116,
+				"text" : "Artstation URL",
+				"type" : "textinput",
+				"value" : "https://www.artstation.com/esstx"
+			},
+			"discordtag" : 
+			{
+				"index" : 14,
+				"order" : 114,
+				"text" : "Discord Tag",
+				"type" : "textinput",
+				"value" : "ESSTX#1734"
+			},
+			"discordurl" : 
+			{
+				"index" : 13,
+				"order" : 113,
+				"text" : "Discord URL",
+				"type" : "textinput",
+				"value" : "https://discord.gg/7qMT8Azffs"
+			},
 			"footericons" : 
 			{
 				"condition" : "",
@@ -15,21 +39,118 @@
 				"type" : "bool",
 				"value" : true
 			},
-			"inf" : 
+			"githuburl" : 
+			{
+				"index" : 15,
+				"order" : 115,
+				"text" : "Github URL",
+				"type" : "textinput",
+				"value" : "https://github.com/ESSTX"
+			},
+			"glassblurstrength" : 
+			{
+				"fraction" : true,
+				"index" : 6,
+				"max" : 30,
+				"min" : 1,
+				"order" : 106,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "Glass blur strength",
+				"type" : "slider",
+				"value" : 10
+			},
+			"glassnoise" : 
+			{
+				"index" : 7,
+				"order" : 107,
+				"text" : "Glass noise",
+				"type" : "bool",
+				"value" : true
+			},
+			"ifyouwanttohideacertainiconjustremovethelinkortext" : 
+			{
+				"index" : 11,
+				"order" : 111,
+				"text" : "<b>If you want to hide a certain icon, just remove the link or text</b>",
+				"type" : "",
+				"value" : ""
+			},
+			"newproperty" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "_______ Particles",
+				"type" : "",
+				"value" : ""
+			},
+			"newproperty1" : 
 			{
 				"index" : 4,
 				"order" : 104,
-				"text" : "<a href='https://discord.gg/7qMT8Azffs'><img src='https://esstx.github.io/base-project/svg/discord.svg' fill='white' width='64' height='64'></a>\t<a href='https://github.com/ESSTX/'><img src='https://esstx.github.io/base-project/svg/github.svg' fill='white' width='64' height='64'></a>\t<a href='https://steamcommunity.com/id/esstx/'><img src='https://esstx.github.io/base-project/svg/steam.svg' fill='white' width='64' height='64'></a>\t<a href='https://www.artstation.com/esstx'><img src='https://esstx.github.io/base-project/svg/artstation.svg' fill='white' width='64' height='64'></a>",
-				"type" : "text",
-				"value" : false
+				"text" : "_______ Glass Container",
+				"type" : "",
+				"value" : ""
+			},
+			"newproperty2" : 
+			{
+				"index" : 10,
+				"order" : 110,
+				"text" : "_______ Social",
+				"type" : "",
+				"value" : ""
+			},
+			"noiseblendmode" : 
+			{
+				"index" : 8,
+				"options" : 
+				[
+					{
+						"label" : "Overlay",
+						"value" : "overlay"
+					},
+					{
+						"label" : "Screen",
+						"value" : "screen"
+					},
+					{
+						"label" : "Multiply",
+						"value" : "multiply"
+					},
+					{
+						"label" : "Lighten",
+						"value" : "lighten"
+					},
+					{
+						"label" : "Darken",
+						"value" : "darken"
+					}
+				],
+				"order" : 108,
+				"text" : "Noise blend mode",
+				"type" : "combo",
+				"value" : "darken"
+			},
+			"noiseopacity" : 
+			{
+				"fraction" : true,
+				"index" : 9,
+				"max" : 0.8,
+				"min" : 0.2,
+				"order" : 109,
+				"precision" : 2,
+				"step" : 0.02,
+				"text" : "Noise opacity",
+				"type" : "slider",
+				"value" : 0.34
 			},
 			"numpart" : 
 			{
 				"fraction" : true,
-				"index" : 1,
+				"index" : 2,
 				"max" : 200,
 				"min" : 0,
-				"order" : 101,
+				"order" : 102,
 				"precision" : 2,
 				"step" : 1,
 				"text" : "Number of particles",
@@ -39,23 +160,31 @@
 			"particlesize" : 
 			{
 				"fraction" : true,
-				"index" : 2,
+				"index" : 3,
 				"max" : 50,
 				"min" : 1,
-				"order" : 102,
+				"order" : 103,
 				"precision" : 2,
 				"step" : 0.1,
 				"text" : "Particle size",
 				"type" : "slider",
 				"value" : 1
 			},
+			"qqnumber" : 
+			{
+				"index" : 18,
+				"order" : 118,
+				"text" : "QQ Number",
+				"type" : "textinput",
+				"value" : "3442513008"
+			},
 			"rndedge" : 
 			{
 				"fraction" : true,
-				"index" : 3,
+				"index" : 5,
 				"max" : 100,
 				"min" : 0,
-				"order" : 103,
+				"order" : 105,
 				"precision" : 2,
 				"step" : 1,
 				"text" : "Rounding the edges of the thumbnail",
@@ -68,6 +197,22 @@
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
 				"value" : "0.28627450980392155 0.28627450980392155 0.28627450980392155"
+			},
+			"steamurl" : 
+			{
+				"index" : 12,
+				"order" : 112,
+				"text" : "Steam URL",
+				"type" : "textinput",
+				"value" : "https://steamcommunity.com/id/esstx/"
+			},
+			"vkurl" : 
+			{
+				"index" : 17,
+				"order" : 117,
+				"text" : "VK URL",
+				"type" : "textinput",
+				"value" : "https://vk.com/essteticx"
 			}
 		},
 		"supportsaudioprocessing" : true
@@ -75,10 +220,10 @@
 	"preview" : "preview.gif",
 	"snapshotformat" : 0,
 	"snapshotoverlay" : "",
-	"tags" : [ "Unspecified" ],
+	"tags" : [ "Abstract" ],
 	"title" : "ION | Audio Responsive Wallpaper",
-	"type" : "Web",
-	"version" : 4,
+	"type" : "web",
+	"version" : 6,
 	"visibility" : "public",
 	"workshopid" : "2968833989",
 	"workshopurl" : "steam://url/CommunityFilePage/2968833989"
