@@ -194,14 +194,6 @@ const init = () => {
       // glow
       ctx.shadowColor = gradient2;
       ctx.shadowBlur = 24;
-      const g = ctx.createRadialGradient(
-        this.x + this.width / 2,
-        this.y + this.height / 2,
-        0,
-        this.x + this.width / 2,
-        this.y + this.height / 2,
-        this.width / 2
-      );
       ctx.fillStyle = gradient2;
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
