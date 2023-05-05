@@ -8,8 +8,8 @@
 		{
 			"_______debug" : 
 			{
-				"index" : 26,
-				"order" : 126,
+				"index" : 25,
+				"order" : 125,
 				"text" : "_______ Background Thumbnail",
 				"type" : "",
 				"value" : ""
@@ -25,10 +25,10 @@
 			"backroundthumbnailbrightness" : 
 			{
 				"fraction" : false,
-				"index" : 28,
+				"index" : 27,
 				"max" : 100,
 				"min" : 5,
-				"order" : 128,
+				"order" : 127,
 				"text" : "Backround Thumbnail Brightness",
 				"type" : "slider",
 				"value" : 10
@@ -51,8 +51,8 @@
 			},
 			"enabledbackroundthumbnail" : 
 			{
-				"index" : 27,
-				"order" : 127,
+				"index" : 26,
+				"order" : 126,
 				"text" : "Backround Thumbnail Enabled",
 				"type" : "bool",
 				"value" : false
@@ -129,8 +129,8 @@
 			},
 			"newproperty3" : 
 			{
-				"index" : 29,
-				"order" : 129,
+				"index" : 28,
+				"order" : 128,
 				"text" : "_______ Debug",
 				"type" : "",
 				"value" : ""
@@ -235,8 +235,8 @@
 			},
 			"showfps" : 
 			{
-				"index" : 30,
-				"order" : 130,
+				"index" : 29,
+				"order" : 129,
 				"text" : "Show FPS | Touch the top of the screen with the cursor",
 				"type" : "bool",
 				"value" : false
@@ -279,10 +279,10 @@
 			"visualizerdatasize" : 
 			{
 				"fraction" : false,
-				"index" : 25,
+				"index" : 24,
 				"max" : 127,
 				"min" : 1,
-				"order" : 125,
+				"order" : 124,
 				"text" : "Visualizer Data Size",
 				"type" : "slider",
 				"value" : 64
@@ -299,25 +299,12 @@
 			{
 				"fraction" : true,
 				"index" : 21,
-				"max" : 5,
+				"max" : 15,
 				"min" : 0.4,
 				"order" : 121,
-				"precision" : 1.01,
-				"step" : 0.97723722,
-				"text" : "Visualizer Height",
-				"type" : "slider",
-				"value" : 1
-			},
-			"visualizeropacity" : 
-			{
-				"fraction" : true,
-				"index" : 24,
-				"max" : 1,
-				"min" : 0.1,
-				"order" : 124,
 				"precision" : 2,
 				"step" : 0.01,
-				"text" : "Visualizer Opacity",
+				"text" : "Visualizer Height",
 				"type" : "slider",
 				"value" : 1
 			},

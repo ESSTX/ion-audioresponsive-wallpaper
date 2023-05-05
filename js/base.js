@@ -39,22 +39,21 @@ const hexToRgb = (hex) => {
   return [r, g, b];
 }
 
-const hexToRgba = (hex, alpha) => {
-  const hexDigits = hex.substring(1).split('');
-  const r = parseInt(hexDigits.slice(0, 2).join(''), 16);
-  const g = parseInt(hexDigits.slice(2, 4).join(''), 16);
-  const b = parseInt(hexDigits.slice(4, 6).join(''), 16);
-  const a = alpha || 1;
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
+const hexToRgba = (hex, alpha = 1) => {
+  const r = parseInt(hex.substring(1, 3), 16);
+  const g = parseInt(hex.substring(3, 5), 16);
+  const b = parseInt(hex.substring(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
 
 const hexSetAlpha = (hex, alpha) => {
   const alphaInt = Math.round(alpha * 255);
   const alphaHex = alphaInt.toString(16).padStart(2, '0');
   const hexDigits = hex.substring(1).split('');
   hexDigits.splice(6, 2, alphaHex);
-  return "#" + hexDigits.join('');
-}
+  const newHex = "#" + hexDigits.join('');
+  return newHex;
+};
 
 const rgbaSetAlpha = (rgba, alpha) => {
   const values = rgba.slice(5, -1).split(',');
@@ -246,7 +245,7 @@ const init = () => {
       barHeight = Math.min(canvas.height, Math.max(0, barHeight));
       const x = (i * barWidth + i * barSpacing) - barWidth - barSpacing / 2;
       const y = canvas.height - barHeight;
-      ctx.fillStyle = hexSetAlpha(visColor, visAlpha);
+      ctx.fillStyle = visColor;
       ctx.fillRect(x, y, barWidth, barHeight);
     }
   }
@@ -586,10 +585,6 @@ const init = () => {
             break;
           case "visualizerenabled":
             visualizerEnabled = value;
-            break;
-          case "visualizeropacity":
-            visAlpha = value;
-            visColor = hexSetAlpha(visColor, visAlpha);
             break;
           case "enabledbackroundthumbnail":
             $("#thumbnailBackground").css("display", value ? "block" : "none");
