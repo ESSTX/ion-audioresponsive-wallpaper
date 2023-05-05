@@ -11,12 +11,6 @@
 */
 .bg {
     background-color: #0c0c0c;
-    background-size: 100%;
-    backdrop-filter: brightness(10%) blur(20px);
-    transition: all .2s linear;
-    background-origin: center;
-    background-position: center center;
-    background-repeat: no-repeat;
 }
 
 .page {
@@ -64,8 +58,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -22;
-
+    z-index: -50;
 }
 
 .noise {
@@ -178,14 +171,19 @@
     position: absolute;
 }
 
-.canvas-inside-wrapper {
+.thumbnail-background {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    box-sizing: border-box;
     position: absolute;
-}
+    top: 0;
+    left: 0;
+    z-index: -100;
 
-.canvas-inside {
-    width: 100%;
-    height: 100%;
+    background-size: 100%;
+    filter: brightness(10%) blur(20px);
+    transition: all .2s linear;
+    background-origin: center;
+    background-position: center center;
+    background-repeat: no-repeat;
 }

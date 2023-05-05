@@ -158,7 +158,7 @@ const init = () => {
       fpsDisplay: $("#fpsDisplay"),
       thumbnail: $("#thumbnail"),
       thumbnailImage: $("#thumbnailimage"),
-      body: $('body'),
+      body: $('#thumbnailBackground'),
       gradient: $("#gradient"),
       infoArtist: $("#infoArtist"),
       infoTrackName: $("#infoTrackName"),
@@ -167,7 +167,7 @@ const init = () => {
   }
 
   let elements = cacheElements();
-  
+
   ///////////////////////////////
   ///
   ///     RAIN
@@ -325,7 +325,8 @@ const init = () => {
     gradientrotation += calc0 / 100;
 
     $("#gradient").css("transform", "rotate(" + gradientrotation + "deg)");
-    $("body").css("background-size", 100 + (size * 50) + "%");
+    $("#thumbnailBackground").css("background-size", 100 + (size * 50) + "%");
+    $("#thumbnailBackground").css("transform", "rotate(" + size*2  + "deg)");
 
     thumbnail.style.width = calc1 + "px";
     thumbnail.style.height = calc1 + "px";
