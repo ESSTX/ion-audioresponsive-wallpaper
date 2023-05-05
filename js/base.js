@@ -147,11 +147,13 @@ const init = () => {
   let gradient1 = "";
   let gradient2 = "";
   let visColor = 0;
+  let visAlpha = 1;
   canvas.width = $("#audiovis").width();
   canvas.height = $("#audiovis").height();
   const thumbnail = document.getElementById('thumbnail');
   const calcHeightThumbnail = $("#thumbnail").width();
   let primaryColor = "#fff";
+  let visualizerEnabled = false;
 
   function cacheElements() {
     return {
@@ -244,7 +246,7 @@ const init = () => {
       barHeight = Math.min(canvas.height, Math.max(0, barHeight));
       const x = (i * barWidth + i * barSpacing) - barWidth - barSpacing / 2;
       const y = canvas.height - barHeight;
-      ctx.fillStyle = visColor;
+      ctx.fillStyle = hexSetAlpha(visColor, visAlpha);
       ctx.fillRect(x, y, barWidth, barHeight);
     }
   }
@@ -276,9 +278,8 @@ const init = () => {
   window.requestAnimationFrame(drawLoop);
 
   function updateVisualizer(elements, deltaTime) {
-    if (!audioArrayGlobal) {
-      return;
-    }
+    if (!visualizerEnabled) { return }
+    if (!audioArrayGlobal) { return }
 
     drawVis(deltaTime);
   }
@@ -297,7 +298,7 @@ const init = () => {
       size += Math.min(audioArray[i], 0.6);
     }
 
-    audioArrayGlobal = audioArray.slice(audioArrayDataSize);
+    if (visualizerEnabled) { audioArrayGlobal = audioArray.slice(0, audioArrayDataSize) }
 
     let calc0 = size * (_impactforce * 10);
 
@@ -326,7 +327,7 @@ const init = () => {
 
     $("#gradient").css("transform", "rotate(" + gradientrotation + "deg)");
     $("#thumbnailBackground").css("background-size", 100 + (size * 50) + "%");
-    $("#thumbnailBackground").css("transform", "rotate(" + size*2  + "deg)");
+    $("#thumbnailBackground").css("transform", "rotate(" + size * 2 + "deg)");
 
     thumbnail.style.width = calc1 + "px";
     thumbnail.style.height = calc1 + "px";
@@ -581,6 +582,20 @@ const init = () => {
             break;
           case "visualizerdatasize":
             audioArrayDataSize = value;
+            audioArrayGlobalSmooth = null;
+            break;
+          case "visualizerenabled":
+            visualizerEnabled = value;
+            break;
+          case "visualizeropacity":
+            visAlpha = value;
+            visColor = hexSetAlpha(visColor, visAlpha);
+            break;
+          case "enabledbackroundthumbnail":
+            $("#thumbnailBackground").css("display", value ? "block" : "none");
+            break;
+          case "backroundthumbnailbrightness":
+            $("#thumbnailBackground").css("filter", "brightness(" + value + "%) blur(20px)");
             break;
           default:
             break;

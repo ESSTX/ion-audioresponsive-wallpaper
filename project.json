@@ -6,6 +6,14 @@
 	{
 		"properties" : 
 		{
+			"_______debug" : 
+			{
+				"index" : 26,
+				"order" : 126,
+				"text" : "_______ Background Thumbnail",
+				"type" : "",
+				"value" : ""
+			},
 			"artstationurl" : 
 			{
 				"index" : 16,
@@ -13,6 +21,17 @@
 				"text" : "Artstation URL",
 				"type" : "textinput",
 				"value" : "https://www.artstation.com/esstx"
+			},
+			"backroundthumbnailbrightness" : 
+			{
+				"fraction" : false,
+				"index" : 28,
+				"max" : 100,
+				"min" : 5,
+				"order" : 128,
+				"text" : "Backround Thumbnail Brightness",
+				"type" : "slider",
+				"value" : 10
 			},
 			"discordtag" : 
 			{
@@ -29,6 +48,14 @@
 				"text" : "Discord URL",
 				"type" : "textinput",
 				"value" : "https://discord.gg/7qMT8Azffs"
+			},
+			"enabledbackroundthumbnail" : 
+			{
+				"index" : 27,
+				"order" : 127,
+				"text" : "Backround Thumbnail Enabled",
+				"type" : "bool",
+				"value" : false
 			},
 			"footericons" : 
 			{
@@ -102,8 +129,8 @@
 			},
 			"newproperty3" : 
 			{
-				"index" : 26,
-				"order" : 126,
+				"index" : 29,
+				"order" : 129,
 				"text" : "_______ Debug",
 				"type" : "",
 				"value" : ""
@@ -208,9 +235,9 @@
 			},
 			"showfps" : 
 			{
-				"index" : 27,
-				"order" : 127,
-				"text" : "Show FPS",
+				"index" : 30,
+				"order" : 130,
+				"text" : "Show FPS | Touch the top of the screen with the cursor",
 				"type" : "bool",
 				"value" : false
 			},
@@ -232,7 +259,7 @@
 			},
 			"visualizercolor" : 
 			{
-				"index" : 22,
+				"index" : 23,
 				"options" : 
 				[
 					{
@@ -244,7 +271,7 @@
 						"value" : "secondary"
 					}
 				],
-				"order" : 122,
+				"order" : 123,
 				"text" : "Visualizer Color",
 				"type" : "combo",
 				"value" : "primary"
@@ -260,13 +287,21 @@
 				"type" : "slider",
 				"value" : 64
 			},
+			"visualizerenabled" : 
+			{
+				"index" : 20,
+				"order" : 120,
+				"text" : "Visualizer Enabled",
+				"type" : "bool",
+				"value" : false
+			},
 			"visualizerheight" : 
 			{
 				"fraction" : true,
-				"index" : 20,
+				"index" : 21,
 				"max" : 5,
 				"min" : 0.4,
-				"order" : 120,
+				"order" : 121,
 				"precision" : 1.01,
 				"step" : 0.97723722,
 				"text" : "Visualizer Height",
@@ -276,27 +311,19 @@
 			"visualizeropacity" : 
 			{
 				"fraction" : true,
-				"index" : 23,
-				"max" : 255,
-				"min" : 0,
-				"order" : 123,
+				"index" : 24,
+				"max" : 1,
+				"min" : 0.1,
+				"order" : 124,
 				"precision" : 2,
-				"step" : 0.1,
+				"step" : 0.01,
 				"text" : "Visualizer Opacity",
 				"type" : "slider",
-				"value" : 255
-			},
-			"visualizersmoothing" : 
-			{
-				"index" : 24,
-				"order" : 124,
-				"text" : "Visualizer Smoothing | !CPU USAGE!",
-				"type" : "bool",
-				"value" : false
+				"value" : 1
 			},
 			"visualizertype" : 
 			{
-				"index" : 21,
+				"index" : 22,
 				"options" : 
 				[
 					{
@@ -304,7 +331,7 @@
 						"value" : "none"
 					}
 				],
-				"order" : 121,
+				"order" : 122,
 				"text" : "Visualizer Type",
 				"type" : "combo",
 				"value" : "none"
