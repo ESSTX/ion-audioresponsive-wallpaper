@@ -100,6 +100,14 @@
 				"type" : "",
 				"value" : ""
 			},
+			"newproperty3" : 
+			{
+				"index" : 26,
+				"order" : 126,
+				"text" : "_______ Debug",
+				"type" : "",
+				"value" : ""
+			},
 			"noiseblendmode" : 
 			{
 				"index" : 8,
@@ -198,6 +206,14 @@
 				"type" : "color",
 				"value" : "0.28627450980392155 0.28627450980392155 0.28627450980392155"
 			},
+			"showfps" : 
+			{
+				"index" : 27,
+				"order" : 127,
+				"text" : "Show FPS",
+				"type" : "bool",
+				"value" : false
+			},
 			"steamurl" : 
 			{
 				"index" : 12,
@@ -205,6 +221,93 @@
 				"text" : "Steam URL",
 				"type" : "textinput",
 				"value" : "https://steamcommunity.com/id/esstx/"
+			},
+			"visualizer" : 
+			{
+				"index" : 19,
+				"order" : 119,
+				"text" : "_______ Visualizer",
+				"type" : "",
+				"value" : ""
+			},
+			"visualizercolor" : 
+			{
+				"index" : 22,
+				"options" : 
+				[
+					{
+						"label" : "Primary",
+						"value" : "primary"
+					},
+					{
+						"label" : "Secondary",
+						"value" : "secondary"
+					}
+				],
+				"order" : 122,
+				"text" : "Visualizer Color",
+				"type" : "combo",
+				"value" : "primary"
+			},
+			"visualizerdatasize" : 
+			{
+				"fraction" : false,
+				"index" : 25,
+				"max" : 127,
+				"min" : 1,
+				"order" : 125,
+				"text" : "Visualizer Data Size",
+				"type" : "slider",
+				"value" : 64
+			},
+			"visualizerheight" : 
+			{
+				"fraction" : true,
+				"index" : 20,
+				"max" : 5,
+				"min" : 0.4,
+				"order" : 120,
+				"precision" : 1.01,
+				"step" : 0.97723722,
+				"text" : "Visualizer Height",
+				"type" : "slider",
+				"value" : 1
+			},
+			"visualizeropacity" : 
+			{
+				"fraction" : true,
+				"index" : 23,
+				"max" : 255,
+				"min" : 0,
+				"order" : 123,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "Visualizer Opacity",
+				"type" : "slider",
+				"value" : 255
+			},
+			"visualizersmoothing" : 
+			{
+				"index" : 24,
+				"order" : 124,
+				"text" : "Visualizer Smoothing | !CPU USAGE!",
+				"type" : "bool",
+				"value" : false
+			},
+			"visualizertype" : 
+			{
+				"index" : 21,
+				"options" : 
+				[
+					{
+						"label" : "I'll add types later",
+						"value" : "none"
+					}
+				],
+				"order" : 121,
+				"text" : "Visualizer Type",
+				"type" : "combo",
+				"value" : "none"
 			},
 			"vkurl" : 
 			{

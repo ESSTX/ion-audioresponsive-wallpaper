@@ -11,6 +11,12 @@
 */
 .bg {
     background-color: #0c0c0c;
+    background-size: 100%;
+    backdrop-filter: brightness(10%) blur(20px);
+    transition: all .2s linear;
+    background-origin: center;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .page {
@@ -38,6 +44,7 @@
     transition: all 0.05s ease-in;
     backdrop-filter: saturate(300%) blur(10px) brightness(120%);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    overflow: hidden;
 }
 
 .page {
@@ -50,7 +57,7 @@
     WP Project
 
 */
-canvas {
+.canvas-outside {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -164,4 +171,21 @@ canvas {
 
 .socialDiscordTag {
     color: white;
+}
+
+.fps-display {
+    display: none;
+    position: absolute;
+}
+
+.canvas-inside-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+.canvas-inside {
+    width: 100%;
+    height: 100%;
 }

@@ -17,11 +17,13 @@
         <p id="debugtext"></p>
     </div>
 
+    <p id="fpsDisplay" class="fps-display">FPS</p>
+
     <div id="content" class="content flex col justify-center align-center">
         <div id="glass" class="glass padgl-5 flex col align-center">
-            <div id="noise" class="noise">
+            
+            <div id="noise" class="noise"></div>
 
-            </div>
             <div class="page">
 
                 <div id="thumbnail-warp" class="thumbnail-container flex-row-center">
@@ -78,9 +80,6 @@
                         </a>
                     </div>
                     <p id="socialDiscordTag" class="socialDiscordTag"></p>
-                    <div class="padtb-1 marlr-3">
-                        <p id="fpsDisplay" style="height: 24px;">FPS</p>
-                    </div>
                 </div>
             </div>
 
@@ -88,7 +87,7 @@
         </div>
     </div>
 
-    <canvas id="audiovis"></canvas>
+    <canvas id="audiovis" class="canvas-outside"></canvas>
 
 </body>
 

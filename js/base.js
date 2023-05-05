@@ -141,29 +141,33 @@ const checkColor = (color) => {
 const init = () => {
   const canvas = document.getElementById('audiovis');
   const ctx = canvas.getContext('2d');
-
   let globalState = -1;
-  let globalStatePrev = -1;
-
-  // Make rain sync with music
   let audio32 = 0;
-
   const drops = [];
-
   let gradient1 = "";
   let gradient2 = "";
-
+  let visColor = 0;
   canvas.width = $("#audiovis").width();
   canvas.height = $("#audiovis").height();
-
   const thumbnail = document.getElementById('thumbnail');
-
-  //Get calculated height for thumbnail
   const calcHeightThumbnail = $("#thumbnail").width();
-
-  // Make thumbnail shadow sync with AUDIOOO
   let primaryColor = "#fff";
 
+  function cacheElements() {
+    return {
+      fpsDisplay: $("#fpsDisplay"),
+      thumbnail: $("#thumbnail"),
+      thumbnailImage: $("#thumbnailimage"),
+      body: $('body'),
+      gradient: $("#gradient"),
+      infoArtist: $("#infoArtist"),
+      infoTrackName: $("#infoTrackName"),
+      gigachadus: $(".gigachadus"),
+    };
+  }
+
+  let elements = cacheElements();
+  
   ///////////////////////////////
   ///
   ///     RAIN
@@ -198,21 +202,17 @@ const init = () => {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   }
-
-
   const update = (deltaTime) => {
     for (let i = 0; i < drops.length; i++) {
       drops[i].update(deltaTime);
     }
   }
-
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < drops.length; i++) {
       drops[i].draw();
     }
   }
-
   const spawnparts = (c) => {
     drops.length = 0;
     for (let i = 0; i < c; ++i) {
@@ -221,33 +221,67 @@ const init = () => {
   }
 
   let fpsDisplayLag = 0;
-  gradientrotation = 0;
-  oldPartCount = 0;
-  partCount = 0;
+  let gradientrotation = 0;
+  let oldPartCount = 0;
+  let partCount = 0;
+  let audioArrayGlobal;
+  let audioArrayDataSize = 64;
+  let audioArrayGlobalSmooth;
+  function drawVis(dt) {
+    const visHeight = 1.0;
+    if (!audioArrayGlobalSmooth) {
+      audioArrayGlobalSmooth = new Array(audioArrayGlobal.length).fill(0);
+    }
+    let i = 1;
+    while (i < audioArrayGlobal.length) {
+      audioArrayGlobalSmooth[i] = lerp(audioArrayGlobalSmooth[i], audioArrayGlobal[i] * visHeight, 24 * dt);
+      i++;
+    }
+    const barWidth = canvas.width / audioArrayGlobal.length;
+    const barSpacing = barWidth * 0.2;
+    for (let i = 0; i < audioArrayGlobal.length; i++) {
+      let barHeight = audioArrayGlobalSmooth[i] * canvas.height;
+      barHeight = Math.min(canvas.height, Math.max(0, barHeight));
+      const x = (i * barWidth + i * barSpacing) - barWidth - barSpacing / 2;
+      const y = canvas.height - barHeight;
+      ctx.fillStyle = visColor;
+      ctx.fillRect(x, y, barWidth, barHeight);
+    }
+  }
 
-  const loop = (timestamp) => {
+  function drawLoop(timestamp) {
     const deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     update(deltaTime);
     draw();
 
-    if (oldPartCount != partCount) {
+    if (oldPartCount !== partCount) {
       oldPartCount = partCount;
       spawnparts(partCount);
-      //$("#debugtext").text(partCount);
     }
 
-    if (fpsDisplayLag > 10) {
+    if (fpsDisplayLag >= 30) {
       const fps = Math.round(1 / deltaTime);
-      $("#fpsDisplay").text(fps + " FPS");
+      elements.fpsDisplay.text(`FPS ${fps}`);
       fpsDisplayLag = 0;
-    } else { fpsDisplayLag++; }
+    } else {
+      fpsDisplayLag++;
+    }
 
-
-    window.requestAnimationFrame(loop);
+    updateVisualizer(elements, deltaTime);
+    window.requestAnimationFrame(drawLoop);
   }
-  let lastTime = 0;
-  window.requestAnimationFrame(loop);
+
+  let lastTime = performance.now();
+  window.requestAnimationFrame(drawLoop);
+
+  function updateVisualizer(elements, deltaTime) {
+    if (!audioArrayGlobal) {
+      return;
+    }
+
+    drawVis(deltaTime);
+  }
 
   ///////////////////////////////
   ///
@@ -257,12 +291,13 @@ const init = () => {
   let _impactforce = 0.1;
   let calc1max = 0;
   const AUDIOLISTENER = (audioArray) => {
-    if (globalState == PAUSED || globalState == STOPPED) { return; }
     let size = 0;
     let slice = Math.round(audioArray.length / 24);//24 is mean detail
     for (let i = 0; i < audioArray.length; i += slice) {
       size += Math.min(audioArray[i], 0.6);
     }
+
+    audioArrayGlobal = audioArray.slice(audioArrayDataSize);
 
     let calc0 = size * (_impactforce * 10);
 
@@ -274,19 +309,15 @@ const init = () => {
     }
     if (calc1max > 620) {
       _impactforce = 4;
-      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
       calc1max = 0;
     } else if (calc1max > 500) {
       _impactforce -= 5;
-      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
       calc1max = 0;
     } else if (calc1max > 420) {
       _impactforce -= 1;
-      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
       calc1max = 0;
     } else {
       _impactforce += 0.1;
-      //$("#debugtext").text("SIZE " + calc1 + " / " + _impactforce);
       calc1max = 0;
     }
 
@@ -294,14 +325,13 @@ const init = () => {
     gradientrotation += calc0 / 100;
 
     $("#gradient").css("transform", "rotate(" + gradientrotation + "deg)");
+    $("body").css("background-size", 100 + (size * 50) + "%");
 
     thumbnail.style.width = calc1 + "px";
     thumbnail.style.height = calc1 + "px";
 
-    //$("#debug_num").text(calc2clamped);
-
     let bs1 = calc0 / 2;
-    let bs2 = calc0 * 3; //blur
+    let bs2 = calc0 * 3; // BLUR
     let bs3 = -calc0;
 
     $("#thumbnail").css("box-shadow", primaryColor + ' 0px ' + bs1 + 'px ' + bs2 + 'px ' + bs3 + 'px ');
@@ -318,23 +348,32 @@ const init = () => {
   const THUMBNAIL = (event) => {
     let thumburlcut = event.thumbnail.replace("data:image/png;base64,", "");
     thumburlcut = thumburlcut.slice(0, googleimage.length);
-    if (thumburlcut == googleimage || globalState == PAUSED) {
+    if (thumburlcut === googleimage || globalState === PAUSED) {
       globalState = STOPPED;
       return;
     }
 
-    if (event.thumbnail == "data:image/png;base64,") {
-      $("#thumbnailimage").attr("src", "img/error.png");
-      $("#thumbnail").css("opacity", "1");
+    const thumbnail = elements.thumbnail;
+    const thumbnailImage = elements.thumbnailImage;
+    const body = elements.body;
+    const gradient = elements.gradient;
+    const infoArtist = elements.infoArtist;
+    const infoTrackName = elements.infoTrackName;
+
+    if (event.thumbnail === "data:image/png;base64,") {
+      thumbnailImage.attr("src", "img/error.png");
+      thumbnail.css("opacity", "1");
     } else {
-      $("#thumbnailimage").attr("src", event.thumbnail);
-      $("#thumbnail").css("opacity", "1");
+      thumbnailImage.attr("src", event.thumbnail);
+      thumbnail.css("opacity", "1");
+
+      body.css('background-image', `url("${event.thumbnail}")`);
     }
 
-    $("#thumbnail").css("box-shadow", event.primaryColor + ' 0px 25px 50px -12px');
+    thumbnail.css("box-shadow", event.primaryColor + ' 0px 25px 50px -12px');
     primaryColor = event.primaryColor;
 
-    $("#gradient").css("background-image", 'linear-gradient(' + event.primaryColor + ', ' + event.secondaryColor + ')')
+    gradient.css("background-image", `linear-gradient(${event.primaryColor}, ${event.secondaryColor})`);
 
     if (getLuma(event.primaryColor) < 10) {
       gradient2 = addLuma(event.primaryColor, 0.55);
@@ -356,8 +395,8 @@ const init = () => {
       gradient1 = event.textColor;
     }
 
-    $("#infoArtist").css("color", gradient1);
-    $("#infoTrackName").css("color", gradient2);
+    infoArtist.css("color", gradient1);
+    infoTrackName.css("color", gradient2);
   }
   ///////////////////////////////
   ///
@@ -365,23 +404,24 @@ const init = () => {
   ///
   ///////////////////////////////
   const PLAYINGINFO = (event) => {
-    if (globalState == PAUSED) {
+    if (globalState === PAUSED) {
       return;
     }
-    let textElements = $('.gigachadus, .thumbnail');
 
-    _.forEach(textElements, (element) => {
-      element.classList.add('blur');
-    });
+    const { gigachadus, thumbnail, infoArtist, infoTrackName } = elements;
 
-    setTimeout(() => {
-      let textElements = $('.gigachadus, .thumbnail');
-      _.forEach(textElements, (element) => {
-        element.classList.remove('blur');
-      });
-      $("#infoArtist").text(event.artist);
-      $("#infoTrackName").text(event.title);
-    }, "200");
+    if (!gigachadus.hasClass('blur') && !thumbnail.hasClass('blur')) {
+      gigachadus.addClass('blur');
+      thumbnail.addClass('blur');
+
+      setTimeout(() => {
+        gigachadus.removeClass('blur');
+        thumbnail.removeClass('blur');
+
+        infoArtist.text(event.artist);
+        infoTrackName.text(event.title);
+      }, 200);
+    }
   }
   ///////////////////////////////
   ///
@@ -464,58 +504,82 @@ const init = () => {
     applyUserProperties: function (properties) {
       //console.log(properties);
       for (const [key, value] of Object.entries(properties)) {
+        const value = properties[key].value;
         switch (key) {
           case "footericons":
-            $("#footericons").css("display", properties[key].value ? "flex" : "none");
+            $("#footericons").css("display", value ? "flex" : "none");
             break;
           case "numpart":
-            partCount = properties.numpart.value;
+            partCount = value;
             break;
           case "particlesize":
-            partsize = properties.particlesize.value;
+            partsize = value;
             break;
           case "rndedge":
-            $(".thumbnail").css("border-radius", properties.rndedge.value + "%");
+            $(".thumbnail").css("border-radius", value + "%");
             break;
           case "glassblurstrength":
-            $("#glass").css("backdrop-filter", `saturate(300%) blur(${properties.glassblurstrength.value}px) brightness(120%)`);
+            $("#glass").css("backdrop-filter", `saturate(300%) blur(${value}px) brightness(120%)`);
             break;
           case "glassnoise":
-            $(".noise").css("display", properties.glassnoise.value ? "block" : "none");
+            $(".noise").css("display", value ? "block" : "none");
             break;
           case "noiseblendmode":
-            $("#noise").css("mix-blend-mode", properties.noiseblendmode.value);
+            $("#noise").css("mix-blend-mode", value);
             break;
           case "noiseopacity":
-            $("#noise").css("opacity", properties.noiseopacity.value);
+            $("#noise").css("opacity", value);
             break;
           case "steamurl":
-            $("#socialSteam").attr("href", properties.steamurl.value)
+            $("#socialSteam").attr("href", value)
             hideIfNoHref("#socialSteam");
             break;
           case "discordurl":
-            $("#socialDiscord").attr("href", properties.discordurl.value)
+            $("#socialDiscord").attr("href", value)
             hideIfNoHref("#socialDiscord");
             break;
           case "discordtag":
-            $("#socialDiscordTag").text(properties.discordtag.value);
+            $("#socialDiscordTag").text(value);
             hideIfNoHref("#socialDiscordTag");
             break;
           case "githuburl":
-            $("#socialGithub").attr("href", properties.githuburl.value);
+            $("#socialGithub").attr("href", value);
             hideIfNoHref("#socialGithub");
             break;
           case "artstationurl":
-            $("#socialArtstation").attr("href", properties.artstationurl.value);
+            $("#socialArtstation").attr("href", value);
             hideIfNoHref("#socialArtstation");
             break;
           case "vkurl":
-            $("#socialVK").attr("href", properties.vkurl.value);
+            $("#socialVK").attr("href", value);
             hideIfNoHref("#socialVK");
             break;
           case "qqnumber":
-            $("#socialQQ").attr("href", properties.qqnumber.value);
+            $("#socialQQ").attr("href", value);
             hideIfNoHref("#socialQQ");
+            break;
+          case "showfps":
+            $("#fpsDisplay").css("display", value ? "block" : "none");
+            break;
+          case "visualizerheight":
+            visHeight = value;
+            break;
+          /*case "visualizerplace":
+            if (value == "outside") {
+              visPlace = 1;
+            } else {
+              visPlace = 0;
+            }
+            break;*/
+          case "visualizercolor":
+            if (value == "primary") {
+              visColor = gradient2;
+            } else {
+              visColor = gradient1;
+            }
+            break;
+          case "visualizerdatasize":
+            audioArrayDataSize = value;
             break;
           default:
             break;
